@@ -49,6 +49,7 @@ long ZipfMandelbrot(long N, double q, double s) {
 }
 
 /**
+ *  y = a*x^b + c
  *  k = ((y-c)/a)^1/b
  */
 long ZipfMandelbrot2(double a, double b, double c) {
@@ -58,7 +59,23 @@ long ZipfMandelbrot2(double a, double b, double c) {
 	double temp = pow(d, 1.0/b);
 	long zipfValue = temp  + 1;
 
-	cout << zipfValue << " \n";
+	//cout << zipfValue << " \n";
+
+	return zipfValue;
+}
+
+/**
+ *  y = a*(x-b)^(-c)+d
+ *  k = b + ((f-d)/a)^(-1/c)
+ */
+long ZipfMandelbrot3(double a, double b, double c, double d) {
+
+	double f = rand()/(double)RAND_MAX;
+	double e = (f-d)/a;
+	double temp = pow(e, -1.0/c);
+	long zipfValue = temp  +b+1;
+
+	//cout << zipfValue << " \n";
 
 	return zipfValue;
 }
@@ -67,15 +84,16 @@ int main() {
 
 	//long N = 20;
 	//double zipValue, q = 0.08532212, s = 0.2938252;
-	int turn = 10;
+	int turn = 10000;
 	int k;
 
-	ofstream ofs("generateddata.txt", ios::out);
+	ofstream ofs("generateddata.csv", ios::out);
 		if(!ofs) return 0;
 
 	srand((unsigned)time(NULL));		//generate random number series
-	for(int i = 1; i < turn; i++){
-		k = ZipfMandelbrot2(0.2627, -1.33, 0);
+	for(int i = 1; i <= turn; i++){
+		//k = ZipfMandelbrot2(0.2627, -1.33, 0);
+		k = ZipfMandelbrot3(0.1382, 0.4796, 1.023, -5.572e-06);
 		ofs<<i<<","<<k<<endl;
 	}
 
